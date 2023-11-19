@@ -1,63 +1,71 @@
-const Ventas = require("../model/datosUsuarios");
-// Obtener todos los objetos de restaurante
-const getVenta = async (req, res) => {
-    Ventas.find((err, ventas) => {
-        if (err) {
-            res.send(err);
-        }
-        res.json(ventas);
-    });
+const Pago = require("../model/datosUsuarios");
+
+// Obtener todos los pagos
+const getPago = async (req, res) => {
+  try {
+    const pagos = await Pago.find();
+    res.json(pagos);
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
 };
-// Crear un objeto con el formato indicado del restaurante
-const createVenta = async (req, res) => {
-    const Venta = new Ventas({
-        Nombre: req.body.Nombre,
-        Correo: req.body.Correo,
-        Telefono: req.body.Telefono,
-        Pais: req.body.Pais,
-        Municipio: req.body.Municipio,
-        CP: req.body.CP,
-        Direccion: req.body.Direccion,
+
+// Crear un pago con el formato indicado
+const createPago = async (req, res) => {
+  try {
+    const nuevoPago = new Pago({
+      Nombre: req.body.Nombre,
+      Correo: req.body.Correo,
+      Telefono: req.body.Telefono,
+      Pais: req.body.Pais,
+      Municipio: req.body.Municipio,
+      CP: req.body.CP,
+      Direccion: req.body.Direccion,
     });
 
-    Venta.save(async (err, ventas) => {
-        if (err) {
-            res.send(err);
-        }
-        res.json(ventas);
-    });
+    const pagoGuardado = await nuevoPago.save();
+    res.status(201).json(pagoGuardado);
+  } catch (error) {
+    res.status(400).json({ mensaje: error.message });
+  }
 };
-const updateVenta = async (req, res) => {
-    Venta.findOneAndUpdate(
-        { _id: req.params.Nombre },
-        {
-            $set: {
-                Nombre: req.body.Nombre,
-                Correo: req.body.Correo,
-                Telefono: req.body.Telefono,
-                Pais: req.body.Pais,
-                Municipio: req.body.Municipio,
-                CP: req.body.CP,
-                Direccion: req.body.Direccion,
-            },
-        },
-        { new: true },
-        (err, ventas) => {
-            if (err) {
-                res.send(err);
-            } else res.json(ventas);
-        }
+
+// Actualizar un pago por ID
+const updatePago = async (req, res) => {
+  try {
+    const pagoActualizado = await Pago.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
     );
+
+    if (!pagoActualizado) {
+      return res.status(404).json({ mensaje: 'Pago no encontrado' });
+    }
+    res.json(pagoActualizado);
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
 };
-// borrar un elemento a través del _id de ingrediente
-const deleteVenta = async (req, res) => {
-    Venta.deleteOne({ _id: req.params.ventasID })
-        .then(() => res.json({ message: "Restaurante eliminado" }))
-        .catch((err) => res.send(err));
+
+// Borrar un pago por ID
+const deletePago = async (req, res) => {
+  try {
+    const eliminado = await Pago.findByIdAndDelete(req.params.id);
+    if (!eliminado) {
+      return res.status(404).json({ mensaje: 'Pago no encontrado' });
+    }
+    res.json({ message: "Pago eliminado" });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
 };
+
 module.exports = {
-    getVenta,
-    createVenta,
-    updateVenta,
-    deleteVenta,
+  getPago,
+  createPago,
+  updatePago,
+  deletePago,
 };

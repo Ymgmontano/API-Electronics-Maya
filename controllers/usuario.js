@@ -1,8 +1,5 @@
-// constante del modelo de datos
 const Usuario = require("../model/usuario");
 const jwt = require("jsonwebtoken")
-
-
 
 const validLogin = async (req, res) => {
   try {
@@ -35,8 +32,6 @@ const validLogin = async (req, res) => {
   }
 };
 
-
-
 const getUsuario = async (req, res) => {
   jwt.verify(req.token, 'pdf', (error, authData) => {
     Usuario.find((err, usuario) => {
@@ -47,7 +42,6 @@ const getUsuario = async (req, res) => {
     });
   });
 };
-
 
 // Crear un objeto con el formato indicado
 const createUsuario = async (req, res) => {
@@ -95,7 +89,6 @@ const deleteUsuario = async (req, res) => {
     .catch((err) => res.send(err));
 };
 
-// 
 module.exports = {
   getUsuario,
   validLogin,

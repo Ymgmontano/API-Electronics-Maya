@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-// Definicion del esquema a utilizar para la coleccion de menu
-const VentasSchema = new mongoose.Schema({
+
+const PagoSchema = new mongoose.Schema({
     Nombre: {
         type: String,
         required: true,
@@ -30,5 +30,6 @@ const VentasSchema = new mongoose.Schema({
         required: true,
     },
 });
-// se manda a llamar la coleccion de menu
-module.exports = mongoose.model("ventas", VentasSchema);
+
+
+module.exports = mongoose.model("pago", PagoSchema);
