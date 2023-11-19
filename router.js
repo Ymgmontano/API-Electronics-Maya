@@ -19,14 +19,35 @@ const {
   eliminarProducto,
 } = require("./controllers/producto");
 
-
-//para ventas 
+//para pagos 
 const {
-  getVenta,
-  createVenta,
-  updateVenta,
-  deleteVenta,
+  getPago,
+  createPago,
+  updatePago,
+  deletePago,
 } = require("./controllers/datosuser")
+
+//para carrito
+const {
+  agregarAlCarrito,
+  eliminarDelCarrito,
+  actualizarCantidad,
+  obtenerProductosEnCarrito,
+} = require("./controllers/carritoCompras");
+
+//para factura
+const {
+  crearFactura,
+  obtenerTodasLasFacturas,
+  obtenerFacturaPorId,
+  eliminarFacturaPorId,
+} = require("./controllers/factura");
+
+//para favoritos
+const {
+  agregarAFavoritos,
+  eliminarDeFavoritos,
+} = require("./controllers/favoritos");
 
 
 // ruta get principal
@@ -35,10 +56,10 @@ router.get("/", async (req, res) => {
 });
 
 //rutas para la coleccion venta
-router.get("/ventas", getVenta);
-router.post("/ventas", createVenta);
-router.put("/ventas/:VentasID", updateVenta);
-router.delete("/ventas/:VentasID", deleteVenta);
+router.get("/ventas", getPago);
+router.post("/ventas", createPago);
+router.put("/ventas/:VentasID", updatePago);
+router.delete("/ventas/:VentasID", deletePago);
 
 //rutas para coleccion usuario
 router.get("/Usuarios", verifyToken, getUsuario);
@@ -53,5 +74,21 @@ router.get("/productos/:idProducto", obtenerProductoPorId);
 router.post("/productos", crearProducto);
 router.put("/productos/:idProducto", actualizarProducto);
 router.delete("/productos/:idProducto", eliminarProducto);
+
+// Rutas para la colección carrito
+router.post("/carrito/agregar", agregarAlCarrito);
+router.delete("/carrito/eliminar/:productoId", eliminarDelCarrito);
+router.put("/carrito/actualizar/:productoId", actualizarCantidad);
+router.get("/carrito", obtenerProductosEnCarrito);
+
+// Rutas para la colección factura
+router.post("/factura/crear", crearFactura);
+router.get("/factura/todas", obtenerTodasLasFacturas);
+router.get("/factura/:facturaId", obtenerFacturaPorId);
+router.delete("/factura/eliminar/:facturaId", eliminarFacturaPorId);
+
+// Rutas para la colección favoritos
+router.post("/favoritos/agregar/:usuarioId/:productoId", agregarAFavoritos);
+router.delete("/favoritos/eliminar/:usuarioId/:productoId", eliminarDeFavoritos);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const Carrito = require('../models/carrito');
+const Carrito = require('../models/carritoCompras');
 const Producto = require('../models/producto');
 
 // Agregar producto al carrito
