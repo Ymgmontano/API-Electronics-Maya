@@ -12,9 +12,8 @@ const {
 
 //para productos
 const {
-  crearProducto,
   obtenerProductos,
-  obtenerProductoPorId,
+  crearProducto,
   actualizarProducto,
   eliminarProducto,
 } = require("./controllers/producto");
@@ -70,7 +69,6 @@ router.get("/Usuarios/:UsuarioCORREO/:UsuarioCONTRASENA", validLogin);
 
 //rutas para coleccion producto
 router.get("/productos", obtenerProductos);
-router.get("/productos/:idProducto", obtenerProductoPorId);
 router.post("/productos", crearProducto);
 router.put("/productos/:idProducto", actualizarProducto);
 router.delete("/productos/:idProducto", eliminarProducto);

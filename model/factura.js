@@ -21,6 +21,4 @@ const facturaSchema = new mongoose.Schema({
   },
 });
 
-const Factura = mongoose.model('Factura', facturaSchema);
-
-module.exports = Factura;
+module.exports = mongoose.model('Factura', facturaSchema);

@@ -13,6 +13,4 @@ const favoritosSchema = new mongoose.Schema({
   },
 });
 
-const Favoritos = mongoose.model('Favoritos', favoritosSchema);
-
-module.exports = Favoritos;
+module.exports = mongoose.model('Favoritos', favoritosSchema);
