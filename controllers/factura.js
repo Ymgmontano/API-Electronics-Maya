@@ -1,66 +1,25 @@
-/*const Factura = require('../models/factura');
-
-// Crear factura
-async function crearFactura(dataFactura) {
-  try {
-    const nuevaFactura = new Factura(dataFactura);
-    const facturaGuardada = await nuevaFactura.save();
-    return facturaGuardada;
-  } catch (error) {
-    console.error('Error al crear factura:', error);
-    throw error;
-  }
-}
-
-// Obtener todas las facturas
-async function obtenerTodasLasFacturas() {
-  try {
-    const facturas = await Factura.find();
-    return facturas;
-  } catch (error) {
-    console.error('Error al obtener todas las facturas:', error);
-    throw error;
-  }
-}
-
-// Obtener factura por ID
-async function obtenerFacturaPorId(id) {
-  try {
-    const factura = await Factura.findById(id);
-    return factura;
-  } catch (error) {
-    console.error('Error al obtener factura por ID:', error);
-    throw error;
-  }
-}
-
-// Eliminar factura por ID
-async function eliminarFacturaPorId(id) {
-  try {
-    await Factura.findByIdAndDelete(id);
-    return { mensaje: 'Factura eliminada exitosamente' };
-  } catch (error) {
-    console.error('Error al eliminar factura:', error);
-    throw error;
-  }
-}
-
-module.exports = {
-  crearFactura,
-  obtenerTodasLasFacturas,
-  obtenerFacturaPorId,
-  eliminarFacturaPorId,
-};*/
-
 const Factura = require('../model/factura');
+const Carrito = require('../model/carritoCompras');
 
-// Crear factura
 const crearFactura = async (req, res) => {
   try {
+    const carritoId = req.body.carrito;
+
+    const carrito = await Carrito.findById(carritoId).populate('productos.producto');
+
+    if (!carrito) {
+      throw new Error('Carrito no encontrado');
+    }
+
+    let totalFactura = 0;
+    carrito.productos.forEach(producto => {
+      totalFactura += producto.subtotal;
+    });
+
     const nuevaFactura = new Factura({
-      carrito: req.body.carrito,
+      carrito: carritoId,
       pago: req.body.pago,
-      total: req.body.total,
+      total: totalFactura,
     });
 
     const facturaGuardada = await nuevaFactura.save();
@@ -84,6 +43,7 @@ const obtenerTodasLasFacturas = async (req, res) => {
 const obtenerFacturaPorId = async (req, res) => {
   try {
     const factura = await Factura.findById(req.params.id);
+    console.log('Factura encontrada:', factura);
     if (!factura) {
       return res.status(404).json({ mensaje: 'Factura no encontrada' });
     }

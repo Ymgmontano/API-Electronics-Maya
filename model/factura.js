@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const facturaSchema = new mongoose.Schema({
-  carrito: [{
+  carrito: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Carrito',
     required: true,
-  }],
+  },
   pago: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Pago',
