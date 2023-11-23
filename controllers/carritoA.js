@@ -14,11 +14,11 @@ const agregarAlCarritoA = async (req, res) => {
     let carrito = await CarritoA.findOne({ usuario: req.usuarioId });
 
     if (carrito) {
-      const productoEnCarrito = carrito.productos.find(prod => prod.id === productoId);
+      const productoEnCarrito = carrito.productos.find(prod => prod.miId === productoId);
 
       if (!productoEnCarrito) {
         carrito.productos.push({
-          id: productoId,
+          miId: productoId,
           title: producto.title,
           price: producto.price,
           image: producto.image,
@@ -28,7 +28,7 @@ const agregarAlCarritoA = async (req, res) => {
       carrito = new CarritoA({
         usuario: req.usuarioId,
         productos: [{
-          id: productoId,
+          miId: productoId,
           title: producto.title,
           price: producto.price,
           image: producto.image,
@@ -49,7 +49,7 @@ const eliminarDelCarritoA = async (req, res) => {
 
     const carrito = await CarritoA.findOneAndUpdate(
       { usuario: req.usuarioId },
-      { $pull: { productos: { id: productoId } } },
+      { $pull: { productos: { miId: productoId } } },
       { new: true }
     );
 

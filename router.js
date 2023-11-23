@@ -63,6 +63,12 @@ const {
   obtenerProductosEnCarritoA,
 } = require("./controllers/carritoA");
 
+//para carritoF
+const{
+  getCarrito,
+  createCarrito,
+} = require ("./controllers/carritoB");
+
 // ruta get principal
 router.get("/", async (req, res) => {
   res.send("Let's build a CRUD API!");
@@ -113,5 +119,9 @@ router.delete('/productosA/:id', eliminarProductoAExistente);
 router.post('/carritoA/agregar',agregarAlCarritoA);
 router.delete('/carritoA/eliminar/:id',eliminarDelCarritoA);
 router.get('/carritoA',obtenerProductosEnCarritoA);
+
+//Ruta para la coleccion CarritoF
+router.get('/carf',getCarrito);
+router.post('/carf',createCarrito);
 
 module.exports = router;
