@@ -4,6 +4,7 @@ const Producto = require('../model/productosA');
 const agregarAlCarritoA = async (req, res) => {
   try {
     const productoId = req.body.productoId;
+    const cantidad = parseInt(req.body.cantidad);
 
     const producto = await Producto.findById(productoId);
 
@@ -16,12 +17,17 @@ const agregarAlCarritoA = async (req, res) => {
     if (carrito) {
       const productoEnCarrito = carrito.productos.find(prod => prod.id === productoId);
 
-      if (!productoEnCarrito) {
+      if (productoEnCarrito) {
+        productoEnCarrito.cantidad += cantidad;
+        productoEnCarrito.subtotal = productoEnCarrito.cantidad * producto.price;
+      } else {
         carrito.productos.push({
           id: productoId,
           title: producto.title,
+          description: producto.description,
           price: producto.price,
           image: producto.image,
+          subtotal: cantidad * producto.price,
         });
       }
     } else {
@@ -30,11 +36,15 @@ const agregarAlCarritoA = async (req, res) => {
         productos: [{
           id: productoId,
           title: producto.title,
+          description: producto.description,
           price: producto.price,
           image: producto.image,
+          subtotal: cantidad * producto.price,
         }],
       });
     }
+
+    carrito.total = carrito.productos.reduce((total, prod) => total + prod.subtotal, 0);
 
     await carrito.save();
     res.status(201).json({ mensaje: 'Producto agregado al carrito' });
@@ -57,7 +67,35 @@ const eliminarDelCarritoA = async (req, res) => {
       throw new Error('Producto no encontrado en el carrito');
     }
 
+    carrito.total = carrito.productos.reduce((total, prod) => total + prod.subtotal, 0);
+    await carrito.save();
+
     res.json({ mensaje: 'Producto eliminado del carrito' });
+  } catch (error) {
+    res.status(400).json({ mensaje: error.message });
+  }
+};
+
+const actualizarCantidadA = async (req, res) => {
+  try {
+    const productoId = req.params.id;
+    const nuevaCantidad = parseInt(req.body.nuevaCantidad);
+
+    const carrito = await CarritoA.findOne({ usuario: req.usuarioId, 'productos.id': productoId });
+
+    if (!carrito) {
+      throw new Error('Producto no encontrado en el carrito');
+    }
+
+    const productoEnCarrito = carrito.productos.find(prod => prod.id === productoId);
+    productoEnCarrito.cantidad = nuevaCantidad;
+    productoEnCarrito.subtotal = productoEnCarrito.price * nuevaCantidad;
+
+    carrito.total = carrito.productos.reduce((total, prod) => total + prod.subtotal, 0);
+
+    await carrito.save();
+
+    res.json({ mensaje: 'Cantidad actualizada en el carrito' });
   } catch (error) {
     res.status(400).json({ mensaje: error.message });
   }
@@ -75,5 +113,6 @@ const obtenerProductosEnCarritoA = async (req, res) => {
 module.exports = {
   agregarAlCarritoA,
   eliminarDelCarritoA,
+  actualizarCantidadA,
   obtenerProductosEnCarritoA,
 };

@@ -1,6 +1,13 @@
 const router = require("express").Router();
 const verifyToken = require("./jwt");
 
+
+const {
+  getCarrito,
+  createCarrito,
+  deleteCarrito
+} = require("./controllers/CarritoF");
+
 //para usuario
 const {
   getUsuario,
@@ -110,8 +117,14 @@ router.put('/productosA/:id', actualizarProductoAExistente);
 router.delete('/productosA/:id', eliminarProductoAExistente);
 
 //Ruta para la coleccion CarritoA
-router.post('/carritoA/agregar',agregarAlCarritoA);
-router.delete('/carritoA/eliminar/:id',eliminarDelCarritoA);
-router.get('/carritoA',obtenerProductosEnCarritoA);
+router.post('/carritoA/agregar', agregarAlCarritoA);
+router.delete('/carritoA/eliminar/:id', eliminarDelCarritoA);
+router.get('/carritoA', obtenerProductosEnCarritoA);
+
+
+
+router.get('/carf', getCarrito);
+router.post('/carf', createCarrito);
+router.delete('/carf/:title',deleteCarrito)
 
 module.exports = router;
