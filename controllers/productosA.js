@@ -11,12 +11,11 @@ const obtenerProductosA = async (req, res) => {
 
 const crearNuevoProductoA = async (req, res) => {
   try {
-    const { id, title, description, price, image } = req.body;
+    const { id, title, price, image } = req.body;
 
     const nuevoProductoA = new ProductosA({
       id,
       title,
-      description,
       price,
       image,
     });
