@@ -48,6 +48,12 @@ const {
   eliminarDeFavoritos,
 } = require("./controllers/favoritos");
 
+const {
+  obtenerProductosA,
+  crearNuevoProductoA,
+  actualizarProductoAExistente,
+  eliminarProductoAExistente,
+} = require("./controllers/productosA");
 
 // ruta get principal
 router.get("/", async (req, res) => {
@@ -88,5 +94,11 @@ router.delete("/factura/eliminar/:facturaId", eliminarFacturaPorId);
 // Rutas para la colección favoritos
 router.post("/favoritos/agregar/:usuarioId/:productoId", agregarAFavoritos);
 router.delete("/favoritos/eliminar/:usuarioId/:productoId", eliminarDeFavoritos);
+
+// Rutas para la colección ProductosA
+router.get('/productosA', productosAController.obtenerProductosA);
+router.post('/productosA', productosAController.crearNuevoProductoA);
+router.put('/productosA/:id', productosAController.actualizarProductoAExistente);
+router.delete('/productosA/:id', productosAController.eliminarProductoAExistente);
 
 module.exports = router;
