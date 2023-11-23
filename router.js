@@ -48,12 +48,21 @@ const {
   eliminarDeFavoritos,
 } = require("./controllers/favoritos");
 
+//para productosA
 const {
   obtenerProductosA,
   crearNuevoProductoA,
   actualizarProductoAExistente,
   eliminarProductoAExistente,
 } = require("./controllers/productosA");
+
+//para carritoA
+const {
+  agregarAlCarritoA,
+  eliminarDelCarritoA,
+  actualizarCantidadA,
+  obtenerProductosEnCarritoA,
+} = require("./controllers/carritoA");
 
 // ruta get principal
 router.get("/", async (req, res) => {
@@ -100,5 +109,11 @@ router.get('/productosA', obtenerProductosA);
 router.post('/productosA', crearNuevoProductoA);
 router.put('/productosA/:id', actualizarProductoAExistente);
 router.delete('/productosA/:id', eliminarProductoAExistente);
+
+//Ruta para la coleccion CarritoA
+router.post('/carrito/agregar',agregarAlCarritoA);
+router.delete('/carrito/eliminar/:id',eliminarDelCarritoA);
+router.put('/carrito/actualizar/:id',actualizarCantidadA);
+router.get('/carrito',obtenerProductosEnCarritoA);
 
 module.exports = router;
