@@ -67,6 +67,7 @@ const {
 const{
   getCarrito,
   createCarrito,
+  deleteProductoById,
 } = require ("./controllers/carritoB");
 
 // ruta get principal
@@ -123,5 +124,6 @@ router.get('/carritoA',obtenerProductosEnCarritoA);
 //Ruta para la coleccion CarritoF
 router.get('/carf',getCarrito);
 router.post('/carf',createCarrito);
+router.delete('/carf/:miId',deleteProductoById)
 
 module.exports = router;
