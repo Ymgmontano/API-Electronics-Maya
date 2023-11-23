@@ -60,7 +60,6 @@ const {
 const {
   agregarAlCarritoA,
   eliminarDelCarritoA,
-  actualizarCantidadA,
   obtenerProductosEnCarritoA,
 } = require("./controllers/carritoA");
 
@@ -111,9 +110,8 @@ router.put('/productosA/:id', actualizarProductoAExistente);
 router.delete('/productosA/:id', eliminarProductoAExistente);
 
 //Ruta para la coleccion CarritoA
-router.post('/carrito/agregar',agregarAlCarritoA);
-router.delete('/carrito/eliminar/:id',eliminarDelCarritoA);
-router.put('/carrito/actualizar/:id',actualizarCantidadA);
-router.get('/carrito',obtenerProductosEnCarritoA);
+router.post('/carritoA/agregar',agregarAlCarritoA);
+router.delete('/carritoA/eliminar/:id',eliminarDelCarritoA);
+router.get('/carritoA',obtenerProductosEnCarritoA);
 
 module.exports = router;
