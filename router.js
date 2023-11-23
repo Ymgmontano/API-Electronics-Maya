@@ -96,9 +96,9 @@ router.post("/favoritos/agregar/:usuarioId/:productoId", agregarAFavoritos);
 router.delete("/favoritos/eliminar/:usuarioId/:productoId", eliminarDeFavoritos);
 
 // Rutas para la colección ProductosA
-router.get('/productosA', productosAController.obtenerProductosA);
-router.post('/productosA', productosAController.crearNuevoProductoA);
-router.put('/productosA/:id', productosAController.actualizarProductoAExistente);
-router.delete('/productosA/:id', productosAController.eliminarProductoAExistente);
+router.get('/productosA', obtenerProductosA);
+router.post('/productosA', crearNuevoProductoA);
+router.put('/productosA/:id', actualizarProductoAExistente);
+router.delete('/productosA/:id', eliminarProductoAExistente);
 
 module.exports = router;
