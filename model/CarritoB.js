@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Carritof = new mongoose.Schema({
    miId: {
      type: String,
-     required: true,
+     required: false,
      unique: true
    },
 
