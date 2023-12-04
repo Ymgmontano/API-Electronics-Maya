@@ -36,10 +36,7 @@ const {
 
 //para factura
 const {
-  crearFactura,
-  obtenerTodasLasFacturas,
-  obtenerFacturaPorId,
-  eliminarFacturaPorId,
+  generarFactura,
 } = require("./controllers/factura");
 
 //para favoritos
@@ -101,10 +98,7 @@ router.put("/carrito/actualizar/:productoId", actualizarCantidad);
 router.get("/carrito", obtenerProductosEnCarrito);
 
 // Rutas para la colección factura
-router.post("/factura/crear", crearFactura);
-router.get("/factura/todas", obtenerTodasLasFacturas);
-router.get("/factura/:facturaId", obtenerFacturaPorId);
-router.delete("/factura/eliminar/:facturaId", eliminarFacturaPorId);
+router.post("/factura/crear", generarFactura);
 
 // Rutas para la colección favoritos
 router.post("/favoritos/agregar/:usuarioId/:productoId", agregarAFavoritos);

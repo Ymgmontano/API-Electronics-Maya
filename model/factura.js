@@ -1,24 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const facturaSchema = new mongoose.Schema({
-  carrito: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Carrito',
-    required: true,
-  },
-  pago: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Pago',
-    required: true,
-  },
-  total: {
-    type: Number,
-    required: true,
-  },
-  fecha: {
-    type: Date,
-    default: Date.now,
-  },
+const FacturaSchema = new mongoose.Schema({
+    productos: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'carritof'
+    }],
+    cliente: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'pago'
+    },
+    total: {
+        type: Number,
+        required: true
+    },
+    fecha: {
+        type: Date,
+        default: Date.now
+    },
 });
 
-module.exports = mongoose.model('Factura', facturaSchema);
+module.exports = mongoose.model("factura", FacturaSchema);
